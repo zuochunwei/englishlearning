@@ -29,6 +29,7 @@ relay 接力
 language 语言
 whole 整个
 thousand 千
+hundred 百
 ten 十
 stadium 体育馆
 international 国际的

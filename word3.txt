@@ -2,14 +2,14 @@ really 真的
 seem 看起来
 matter 关系（no-matter没关系）
 broke 弄坏
-offer 提供
+offer 提供、录取通知书
 courage 勇气
-wish 希望
+wish 希望、心愿
 agree 同意
 war 战争
-most 大多数
-fun 有趣的
-plus 加
+most 大多数、最多
+fun 有趣
+plus 加、+
 official 官员
 weigh 称重
 like 喜欢
@@ -20,7 +20,7 @@ peace 和平
 race 比赛、竞赛
 hard 努力、困难、硬的
 side 一边
-formal 正事的
+formal 正式的，正装
 form 表格
 act 扮演
 little 小
@@ -28,7 +28,7 @@ afraid 害怕
 bowl 碗
 soup 汤
 pill 药片
-exercise 练习
+exercise 练习、锻炼
 smoking 抽烟
 computer 电脑
 should 应该
@@ -39,7 +39,7 @@ way 路、方法
 interested 感兴趣
 interesting 有趣的
 fantastic 魔幻的
-special 特别的
+special 特别的、特殊的
 silk 丝绸的
 difficult 困难的
 comfortable 舒服的
