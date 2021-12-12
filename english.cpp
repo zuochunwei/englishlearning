@@ -39,6 +39,12 @@ std::string wrong_word;
 
 int right = 0;
 int wrong = 0;
+int test_count_max = 10000;
+
+int test_count()
+{
+    return right + wrong;
+}
 
 bool quit = false;
 std::set<struct Word>::iterator it;
@@ -138,6 +144,13 @@ void next()
         return;
     }
 
+    if (test_count() >= test_count_max)
+    {
+        std::cout << "到达最大测试数量" << std::endl;
+        quit = true;
+        return;
+    }
+
     Word word;
     if (policy == RAND)
     {
@@ -181,17 +194,19 @@ bool check(std::string answer)
     auto &word = *it;
     if (answer == word.english)
     {
-        ++right;
         std::cout << "✅" << std::endl;
+        ++right;
         test_set.erase(it);
         std::cout << "=============================" << std::endl;
         return true;
     }
     else
     {
-        ++wrong;
         wrong_word = word.english;
-        word_list_wrong.insert(word);
+        if (word_list_wrong.insert(word).second)
+        {
+            ++wrong;
+        }
         std::cout << "❎ " << word.english << std::endl;
         return false;
     }
@@ -324,6 +339,24 @@ void console()
         else if (cmd == "order")
         {
             change_policy(ORDER);
+            std::cout << "策略改为顺序出题" << std::endl;
+            next();
+        }
+        else if (cmd == "rand")
+        {
+            change_policy(RAND);
+            std::cout << "策略改为随机出题" << std::endl;
+            next();
+        }
+        else if (cmd == "maxcount")
+        {
+            std::string max_count;
+            iss >> max_count;
+            int mc = atoi(max_count.c_str());
+            if (mc > 0)
+            {
+                test_count_max = mc;
+            }
             next();
         }
         else if (cmd == "print")
@@ -349,8 +382,11 @@ void console()
             std::cout << "添加单词本：add book-name" << std::endl;
             std::cout << "打印单词本：print book-name" << std::endl;
             std::cout << "打印单词数：wordcount" << std::endl;
+            std::cout << "设置最大测试单词数：maxcount num" << std::endl;
             std::cout << "合并所有单词本：merge" << std::endl;
             std::cout << "重新开始：restart" << std::endl;
+            std::cout << "随机测试：rand" << std::endl;
+            std::cout << "顺序测试：order" << std::endl;
             std::cout << "保存：save [filename]" << std::endl;
             std::cout << "退出：quit or q" << std::endl;
         }
