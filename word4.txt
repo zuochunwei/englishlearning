@@ -11,7 +11,8 @@ wear 穿着
 stage 舞台
 wish 心愿、希望
 shoes 鞋子
-fruit 新鲜
+fruit 水果
+fresh 新鲜
 ground 地面
 glad 高兴的
 calendar 日历

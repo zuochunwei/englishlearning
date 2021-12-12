@@ -260,9 +260,11 @@ void save(const std::string& filename)
             }
         }
 
+        char buf[1024] = {};
         for (auto x : wordset)
         {
-            f << x.english << " " << x.chinese << std::endl;
+            sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
+            f << buf << std::endl;
         }
     }
     f.close();
@@ -376,7 +378,7 @@ void console()
                 for (auto &word : x->second)
                 {
                     //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
-                    printf("[%3d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
+                    printf("[%4d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
                 }
             }
         }
@@ -421,9 +423,11 @@ void print_result()
     std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::trunc));
     if (f.is_open())
     {
+        char buf[1024] = {};
         for (auto x : word_list_wrong)
         {
-            f << x.chinese << " " << x.english << std::endl;
+            sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
+            f << buf << std::endl;
         }
     }
     else
