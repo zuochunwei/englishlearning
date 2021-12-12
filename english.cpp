@@ -39,7 +39,7 @@ std::string wrong_word;
 
 int right = 0;
 int wrong = 0;
-int test_count_max = 10000;
+int test_count_max = 40;
 
 int test_count()
 {
@@ -363,7 +363,11 @@ void console()
         {
             std::string bookname;
             iss >> bookname;
-            std::cout << "单词本[" << bookname << "]" << std::endl;
+            if (bookname.empty())
+            {
+                bookname = *word_book_selected.begin();
+            }
+            std::cout << "打印单词本:" << bookname << std::endl;
 
             auto x = word_book_map.find(bookname);
             if (x != word_book_map.end())
@@ -371,7 +375,8 @@ void console()
                 int i = 0;
                 for (auto &word : x->second)
                 {
-                    std::cout << "[" << ++i << "] " << word.chinese << " " << word.english << std::endl;
+                    //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
+                    printf("[%3d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
                 }
             }
         }
@@ -431,7 +436,7 @@ void print_result()
 
 int main(int argc, char* argv[])
 {
-    std::string filename = "word4.txt";
+    std::string filename = "g6.txt";
     bool silent = true;
 
     if (argc >= 2)

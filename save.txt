@@ -439,7 +439,6 @@ honour 纪念、荣耀
 hope 希望
 horse 马
 hospital 医院
-hosptial 医院
 host 主办
 hot 热的
 hotel 旅馆

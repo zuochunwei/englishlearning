@@ -36,7 +36,7 @@ ache 疼
 happen 发生
 practice 练习
 because 因为
-hosptial 医院
+hospital 医院
 finger 手指
 tomorrow 明天
 leg 胳膊
