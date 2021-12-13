@@ -39,7 +39,7 @@ std::string wrong_word;
 
 int right = 0;
 int wrong = 0;
-int test_count_max = 40;
+int test_count_max = 50;
 
 int test_count()
 {
@@ -282,11 +282,11 @@ void console()
         std::string cmd;
         iss >> cmd;
 
-        if (cmd == "quit" || cmd == "q")
+        if (cmd == "Quit" || cmd == "q")
         {
             break;
         }
-        else if (cmd == "select")
+        else if (cmd == "Select")
         {
             std::string bookname;
             iss >> bookname;
@@ -299,14 +299,14 @@ void console()
             clear_stat();
             next();
         }
-        else if (cmd == "load")
+        else if (cmd == "Load")
         {
             std::string bookname;
             iss >> bookname;
             load_word_book(bookname, true);
             std::cout << "加载单词表：" << bookname << "完成" << std::endl;
         }
-        else if (cmd == "add")
+        else if (cmd == "Add")
         {
             std::string bookname;
             iss >> bookname;
@@ -319,38 +319,38 @@ void console()
             }
             std::cout << "添加单词表：" << bookname << "成功" << std::endl;
         }
-        else if (cmd == "merge")
+        else if (cmd == "Merge")
         {
             merge();
         }
-        else if (cmd == "save")
+        else if (cmd == "Save")
         {
             std::string bookname;
             iss >> bookname;
             if (bookname.empty()) bookname = "save.txt";
             save(bookname);
         }
-        else if (cmd == "restart")
+        else if (cmd == "Restart")
         {
             restart();
         }
-        else if (cmd == "wordcount")
+        else if (cmd == "Wordcount")
         {
             std::cout << "wordcount:" << test_set.size() << std::endl;
         }
-        else if (cmd == "order")
+        else if (cmd == "Order")
         {
             change_policy(ORDER);
             std::cout << "策略改为顺序出题" << std::endl;
             next();
         }
-        else if (cmd == "rand")
+        else if (cmd == "Rand")
         {
             change_policy(RAND);
             std::cout << "策略改为随机出题" << std::endl;
             next();
         }
-        else if (cmd == "maxcount")
+        else if (cmd == "Maxcount")
         {
             std::string max_count;
             iss >> max_count;
@@ -361,7 +361,7 @@ void console()
             }
             next();
         }
-        else if (cmd == "print")
+        else if (cmd == "Print")
         {
             std::string bookname;
             iss >> bookname;
@@ -382,20 +382,20 @@ void console()
                 }
             }
         }
-        else if (cmd == "help")
+        else if (cmd == "Help")
         {
-            std::cout << "加载单词本：load book-name" << std::endl;
-            std::cout << "选择单词本：select book-name" << std::endl;
-            std::cout << "添加单词本：add book-name" << std::endl;
-            std::cout << "打印单词本：print book-name" << std::endl;
-            std::cout << "打印单词数：wordcount" << std::endl;
-            std::cout << "设置最大测试单词数：maxcount num" << std::endl;
-            std::cout << "合并所有单词本：merge" << std::endl;
-            std::cout << "重新开始：restart" << std::endl;
-            std::cout << "随机测试：rand" << std::endl;
-            std::cout << "顺序测试：order" << std::endl;
-            std::cout << "保存：save [filename]" << std::endl;
-            std::cout << "退出：quit or q" << std::endl;
+            std::cout << "加载单词本：Load book-name" << std::endl;
+            std::cout << "选择单词本：Select book-name" << std::endl;
+            std::cout << "添加单词本：Add book-name" << std::endl;
+            std::cout << "打印单词本：Print book-name" << std::endl;
+            std::cout << "打印单词数：Wordcount" << std::endl;
+            std::cout << "设置最大测试单词数：Maxcount num" << std::endl;
+            std::cout << "合并所有单词本：Merge" << std::endl;
+            std::cout << "重新开始：Restart" << std::endl;
+            std::cout << "随机测试：Rand" << std::endl;
+            std::cout << "顺序测试：Order" << std::endl;
+            std::cout << "保存：Save [filename]" << std::endl;
+            std::cout << "退出：Quit or q" << std::endl;
         }
         else
         {

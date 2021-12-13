@@ -1,0 +1,7 @@
+1.编译
+g++ english.cpp -std=c++11
+
+2.执行
+./a.out
+
+如果是macbook笔记本，可以免编译，直接用a.out执行

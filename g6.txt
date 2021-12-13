@@ -229,7 +229,7 @@ sweater 毛衣
 compass 指南针
 ancient 古代的
 sunday 礼拜天
-fellow 跟随
+follow 跟随
 large 大的
 medium 中等的
 host 主办

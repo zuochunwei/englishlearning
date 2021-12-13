@@ -352,7 +352,7 @@ father          爸爸
 favorite        最喜欢的   
 feed            喂            
 feel            感到         
-fellow          跟随         
+follow          跟随         
 festival        节日         
 fetch           获取、获得、取
 fever           发烧、发热

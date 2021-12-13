@@ -1,1 +1,8 @@
-leg             胳膊         
+bridge          桥            
+calendar        日历         
+flame           火焰         
+lost            丢失         
+medal           奖牌         
+sentence        句子         
+stadium         体育馆      
+vehicle         交通工具   
