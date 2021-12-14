@@ -41,7 +41,7 @@ leave 离开
 light 点亮
 lose 失去
 make 制造、使得、做
-mean 意思是
+mean 意思是、意味
 meet 预见
 pay 付钱
 quit 退出
@@ -206,7 +206,7 @@ disappoint 使失望、使扫兴
 earn 赚得、获得
 examine 检查
 test 测试、测验
-express 表达
+express 表达、表示
 forbid 禁止
 waste 浪费
 trust 相信、信任
@@ -370,3 +370,14 @@ suspend 暂停
 depend 依赖
 ensure 确保、保证
 simply 简化
+configure 配置
+equal 相等
+signal 信号
+subtract 减、减法
+plus 加、加法
+incorporate 合并、包含、吸收、将..包括在内
+merge 合并、归并、合在一起
+involve 包括、需要
+arrange 安排
+illustrate 图示、演示
+assume 假设、假定
