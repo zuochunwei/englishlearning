@@ -24,6 +24,11 @@ struct Word
     {
         return english < rhs.english;
     }
+
+    bool is_valid() const
+    {
+        return !chinese.empty() && !english.empty();
+    }
 };
 
 typedef std::set<struct Word> word_book;
@@ -97,6 +102,12 @@ bool load_word_book(const std::string &filename, bool silent)
         std::istringstream iss(line);
         Word word;
         iss >> word.english >> word.chinese;
+
+        if (!word.is_valid())
+        {
+            printf("invalid word\n");
+            continue;
+        }
 
         std::string skip;
         iss >> skip;
