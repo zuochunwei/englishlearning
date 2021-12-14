@@ -230,7 +230,7 @@ void restart()
     next();
 }
 
-void merge()
+bool merge()
 {
     std::fstream f;
     f.open("file.list", std::ios::in);
@@ -238,48 +238,50 @@ void merge()
     {
         std::cout << "open file.list failed\n";
         f.close();
-        return;
+        return false;
     }
 
     word_book_selected.clear();
     char word_book[1024] = {};
     while (f.getline(word_book, sizeof(word_book)))
     {
-        load_word_book(word_book, false);
-        word_book_selected.insert(word_book);
-        std::cout << word_book << std::endl;
+        if (load_word_book(word_book, false))
+        {
+            word_book_selected.insert(word_book);
+            std::cout << "merged:" << word_book << std::endl;
+        }
     }
-
-    restart();
+    f.close();
+    return true;
 }
 
-void save(const std::string& filename)
+bool save(const std::string& filename)
 {
     std::ofstream f(filename, (std::ios_base::out|std::ios_base::trunc));
     if (!f.is_open())
     {
-        std::cout << "打开wrong.txt失败" << std::endl;
+        std::cout << "打开" << filename << "失败" << std::endl;
+        return false;
     }
-    else
-    {
-        std::set<struct Word> wordset;
-        for (auto x : word_book_map)
-        {
-            for (auto y : x.second)
-            {
-                wordset.insert(y);
-            }
-        }
 
-        char buf[1024] = {};
-        for (auto x : wordset)
+    std::set<struct Word> wordset;
+    for (auto x : word_book_map)
+    {
+        for (auto y : x.second)
         {
-            sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
-            f << buf << std::endl;
+            wordset.insert(y);
         }
     }
+
+    char buf[1024] = {};
+    for (auto x : wordset)
+    {
+        sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
+        f << buf << std::endl;
+    }
+    std::cout << "save OK, total word count:" << wordset.size() << std::endl;
     f.close();
-    std::cout << "save OK" << std::endl;
+    return true;
 }
 
 void console()
@@ -332,7 +334,10 @@ void console()
         }
         else if (cmd == "Merge")
         {
-            merge();
+            if (merge())
+            {
+                restart();
+            }
         }
         else if (cmd == "Save")
         {
