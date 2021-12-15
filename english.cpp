@@ -316,7 +316,7 @@ struct Test
         next();
     }
 
-    int test_count() const
+    int get_test_count() const
     {
         return right + wrong;
     }
@@ -368,7 +368,7 @@ struct Test
 
     void next()
     {
-        if (test_count() >= test_count_max)
+        if (get_test_count() >= test_count)
         {
             std::cout << "到达最大测试数量" << std::endl;
             quit = true;
@@ -382,8 +382,8 @@ struct Test
         }
         else
         {
-            question = *word;
-            std::cout << "[" << (test_count()+1) << "] " << question.chinese << " ";
+            testing_question = *word;
+            std::cout << "[" << (get_test_count()+1) << "] " << testing_question.chinese << " ";
         }
     }
 
@@ -404,7 +404,7 @@ struct Test
             }
         }
 
-        if (answer == question.english)
+        if (answer == testing_question.english)
         {
             std::cout << "✅" << std::endl;
             if (wrong_set.find(Word("", answer)) == wrong_set.end())
@@ -417,12 +417,12 @@ struct Test
         }
         else
         {
-            wrong_word = question.english;
-            if (wrong_set.insert(question).second)
+            wrong_word = testing_question.english;
+            if (wrong_set.insert(testing_question).second)
             {
                 ++wrong;
             }
-            std::cout << "❎ " << question.english << std::endl;
+            std::cout << "❎ " << testing_question.english << std::endl;
             return false;
         }
     }
@@ -518,13 +518,12 @@ struct Test
                     Test::instance().restart();
                 }
             }
-            else if (cmd == "Maxcount")
+            else if (cmd == "Testcount")
             {
-                std::string& max_count = string_list[1];
-                int mc = atoi(max_count.c_str());
-                if (mc > 0)
+                int max_count = atoi(string_list[1].c_str());
+                if (max_count > 0)
                 {
-                    Test::instance().test_count_max = mc;
+                    Test::instance().test_count = max_count;
                 }
                 next();
             }
@@ -554,7 +553,7 @@ struct Test
                 std::cout << "添加单词本：Add book-name" << std::endl;
                 std::cout << "打印单词本：Print book-name" << std::endl;
                 std::cout << "打印单词数：Wordcount" << std::endl;
-                std::cout << "设置最大测试单词数：Maxcount num" << std::endl;
+                std::cout << "设置测试单词数：Maxcount num" << std::endl;
                 std::cout << "合并所有单词本：Merge" << std::endl;
                 std::cout << "重新开始：Restart" << std::endl;
                 std::cout << "随机测试：Rand" << std::endl;
@@ -609,6 +608,7 @@ struct Test
         if (!f.is_open())
         {
             std::cout << "打开" << filename << "失败" << std::endl;
+            f.close();
             return false;
         }
 
@@ -667,11 +667,11 @@ struct Test
 
     std::set<Word> wrong_set;
 
-    Word question;
+    Word testing_question; //正在测试的问题
 
     int right = 0;
     int wrong = 0;
-    int test_count_max = 50;
+    int test_count = 50;
 };
 
 int main(int argc, char* argv[])
