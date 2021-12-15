@@ -337,7 +337,7 @@ struct Test
         test_word_info.clear();
         for (auto x : word_book_selector)
         {
-            std::cout << "build test set, process:" << x.first << std::endl;
+            std::cout << "build test set from " << x.first << std::endl;
             if (auto book = WordBookManager::instance().get(x.first))
             {
                 test_word_info.add_word_book(book, x.second);
@@ -361,7 +361,7 @@ struct Test
             policy = new_policy;
             if (new_policy == ORDER)
             {
-                test_word_info.word_list_cursor = -1;
+                test_word_info.word_list_cursor = 0;
             }
         }
     }
@@ -482,43 +482,41 @@ struct Test
             {
                 std::cout << "wordcount:" << WordBookManager::instance().word_count() << std::endl;
             }
-#if 0
-            else if (cmd == "Load")
-            {
-                std::string& bookname = string_list[1];
-                load_word_book(bookname, true);
-                std::cout << "加载单词表：" << bookname << "完成" << std::endl;
-            }
-            else if (cmd == "Add")
-            {
-                std::string& bookname = string_list[1];
-                auto x = word_book_map.find(bookname);
-                if (x != word_book_map.end())
-                {
-                    add_word_book(bookname);
-                    word_book_selector.insert(bookname);
-                    std::cout << "添加单词表：" << bookname << "成功" << std::endl;
-                }
-                std::cout << "添加单词表：" << bookname << "成功" << std::endl;
-            }
-            else if (cmd == "Merge")
-            {
-                if (merge())
-                {
-                    restart();
-                }
-            }
             else if (cmd == "Order")
             {
-                change_policy(ORDER);
+                Test::instance().change_policy(ORDER);
                 std::cout << "策略改为顺序出题" << std::endl;
                 next();
             }
             else if (cmd == "Rand")
             {
-                change_policy(RAND);
+                Test::instance().change_policy(RAND);
                 std::cout << "策略改为随机出题" << std::endl;
                 next();
+            }
+            else if (cmd == "Load")
+            {
+                std::string& bookname = string_list[1];
+                WordBookManager::instance().load(bookname, true);
+                std::cout << "加载单词表：" << bookname << "完成" << std::endl;
+            }
+            else if (cmd == "Add")
+            {
+                std::string& bookname = string_list[1];
+                auto book = WordBookManager::instance().get(bookname);
+                if (book != nullptr)
+                {
+                    Test::instance().select_word_book(bookname, range_all);
+                    Test::instance().build_test_set();
+                    std::cout << "添加单词表：" << bookname << "成功" << std::endl;
+                }
+            }
+            else if (cmd == "Merge")
+            {
+                if (Test::instance().merge())
+                {
+                    Test::instance().restart();
+                }
             }
             else if (cmd == "Maxcount")
             {
@@ -526,11 +524,10 @@ struct Test
                 int mc = atoi(max_count.c_str());
                 if (mc > 0)
                 {
-                    test_count_max = mc;
+                    Test::instance().test_count_max = mc;
                 }
                 next();
             }
-#endif
             else if (cmd == "Print")
             {
                 std::string& bookname = string_list[1];
@@ -635,7 +632,6 @@ struct Test
         return true;
     }
 
-#if 0
     bool merge()
     {
         std::fstream f;
@@ -651,16 +647,15 @@ struct Test
         char word_book[1024] = {};
         while (f.getline(word_book, sizeof(word_book)))
         {
-            if (load_word_book(word_book, false))
+            if (WordBookManager::instance().load(word_book, false))
             {
-                word_book_selector.insert(word_book);
+                word_book_selector[word_book] = range_all;
                 std::cout << "merged:" << word_book << std::endl;
             }
         }
         f.close();
         return true;
     }
-#endif
 
     POLICY policy = ORDER;
 
