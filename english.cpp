@@ -9,20 +9,60 @@
 #include <stdlib.h>
 #include <algorithm>
 
-enum POLICY
-{
-    RAND, //随机
-    ORDER //顺序
-} policy = RAND;
+bool quit = false;
 
+size_t split_string(std::string& input, std::vector<std::string>& output)
+{
+    size_t pos = 0;
+    size_t i = 0;
+    while (i < input.size())
+    {
+        char c = input[i];
+        if (c == ' ')
+        {
+            output.push_back(input.substr(pos, i - pos));
+            pos = -1;
+        }
+        else
+        {
+            if (pos == -1)
+            {
+                pos = i;
+            }
+        }
+        ++i;
+    }
+
+    if (pos != -1)
+    {
+        output.push_back(input.substr(pos, i - pos));
+    }
+
+    return output.size();
+}
+
+//单词
 struct Word
 {
     std::string chinese;
     std::string english;
 
+    Word() : chinese("空"), english("none") {}
+    Word(const std::string& chinese, const std::string& english) : chinese(chinese), english(english) {}
+
     bool operator<(const Word& rhs) const
     {
         return english < rhs.english;
+    }
+
+    bool operator<(const std::string& rhs) const
+    {
+        return english < rhs;
+    }
+
+    bool operator==(const std::string& english) const
+    {
+        return this->english == english;
     }
 
     bool is_valid() const
@@ -31,461 +71,618 @@ struct Word
     }
 };
 
-typedef std::set<struct Word> word_book;
-
-std::map<std::string, word_book> word_book_map;
-word_book test_set;
-
-std::set<std::string> word_book_selected;
-
-std::set<struct Word> word_list_wrong;
-
-std::string wrong_word;
-
-int right = 0;
-int wrong = 0;
-int test_count_max = 50;
-
-int test_count()
+//单词本
+struct WordBook
 {
-    return right + wrong;
-}
+    std::string name;
+    std::vector<Word> list;
 
-bool quit = false;
-std::set<struct Word>::iterator it;
+    WordBook() = default;
 
-void add_word_book(const std::string& bookname)
+    template <typename SET>
+    WordBook(const std::string& name, SET set) : name(name), list(set.begin(), set.end()) {}
+};
+
+//单词本管理器
+struct WordBookManager
 {
-    auto it = word_book_map.find(bookname);
-    if (it != word_book_map.end())
+    static WordBookManager& instance()
     {
-        test_set.insert(it->second.begin(), it->second.end());
-    }
-}
-
-void build_test_set()
-{
-    test_set.clear();
-    for (auto &x : word_book_selected)
-    {
-        std::cout << "build_test_set:" << x << std::endl;
-        add_word_book(x);
-    }
-    std::cout << "测试集构建完毕(" << test_set.size() << ")" << std::endl;
-}
-
-void clear_stat()
-{
-    right = 0;
-    wrong = 0;
-    wrong_word = "";
-    word_list_wrong.clear();
-}
-
-bool load_word_book(const std::string &filename, bool silent)
-{
-    std::fstream f;
-    f.open(filename, std::ios::in);
-    if (!f.is_open())
-    {
-        std::cout << "open file failed\n";
-        f.close();
-        return false;
+        static WordBookManager wbm;
+        return wbm;
     }
 
-    word_book book;
-
-    char line[1024] = {};
-    int count = 0;
-    while (f.getline(line, sizeof(line)))
+    bool init(const std::string& filelist)
     {
-        std::istringstream iss(line);
-        Word word;
-        iss >> word.english >> word.chinese;
-
-        if (!word.is_valid())
+        std::fstream f;
+        f.open(filelist, std::ios::in);
+        if (!f.is_open())
         {
-            printf("invalid word\n");
-            continue;
+            std::cout << "open file " << filelist << " failed" << std::endl;
+            f.close();
+            return false;
         }
 
-        std::string skip;
-        iss >> skip;
-
-        if (skip != "x")
+        char word_book[1024] = {};
+        while (f.getline(word_book, sizeof(word_book)))
         {
-            book.insert(word);
+            load(word_book, false);
+        }
+        f.close();
+        return true;
+    }
+
+    WordBook* get(const std::string& bookname)
+    {
+        auto x = books_map.find(bookname);
+        if (x != books_map.end())
+        {
+            return &x->second;
+        }
+        return nullptr;
+    }
+
+    void add(const WordBook& wb)
+    {
+        auto x = books_map.find(wb.name);
+        if (x != books_map.end())
+        {
+            std::cout << "update wordbook:" << wb.name << std::endl;
+        }
+        books_map[wb.name] = wb;
+    }
+
+    bool load(const std::string &wordbook, bool silent)
+    {
+        std::fstream f;
+        f.open(wordbook, std::ios::in);
+        if (!f.is_open())
+        {
+            std::cout << "open file " << wordbook << " failed" << std::endl;
+            f.close();
+            return false;
+        }
+
+        std::set<Word> set;
+        char line[1024] = {};
+        while (f.getline(line, sizeof(line)))
+        {
+            std::istringstream iss(line);
+            Word word;
+            iss >> word.english >> word.chinese;
+            if (!word.is_valid())
+            {
+                printf("invalid word\n");
+                continue;
+            }
+
+            std::string skip;
+            iss >> skip;
+            if (skip != "x")
+            {
+                if (set.insert(word).second && !silent)
+                {
+                    std::cout << "["  << set.size() << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
+                }
+            }
         }
 
         if (!silent) 
         {
-            std::cout << "["  << ++count << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
+            std::cout << "read " << wordbook << " completed, word count:" << set.size() << std::endl;
+        }
+
+        add(WordBook(wordbook, set));
+        if (default_book.empty())
+        {
+            default_book = wordbook;
+        }
+        return true;
+    }
+
+    size_t word_count() const
+    {
+        size_t count = 0;
+        for (auto x : books_map)
+        {
+            count += x.second.list.size();
+        }
+        return count;
+    }
+
+    std::map<std::string, WordBook> books_map;
+    std::string default_book;
+};
+
+enum POLICY
+{
+    RAND, //随机
+    ORDER //顺序
+};
+
+using range_t = std::pair<int,int>;
+
+const static range_t range_all = {0, 99999};
+
+struct TestWordInfo
+{
+    std::set<Word> word_set;
+    std::vector<Word> word_list;
+    size_t word_list_cursor;
+
+    void clear()
+    {
+        word_set.clear();
+        word_list.clear();
+        word_list_cursor = 0;
+    }
+
+    void add_word_book(const WordBook* wordbook, const range_t range)
+    {
+        for (size_t i = 0; i < wordbook->list.size(); ++i)
+        {
+            if (i >= range.first && i < range.second)
+            {
+                auto word = wordbook->list[i];
+                if (word_set.insert(word).second)
+                {
+                    word_list.push_back(word);
+                }
+            }
         }
     }
 
-    if (!silent) 
+    const Word* get_next_word(POLICY policy)
     {
-        std::cout << "read " << filename << " completed, word count:" << book.size() << std::endl;
+        if (policy == ORDER)
+        {
+            if (word_list_cursor < word_list.size())
+            {
+                return &word_list[word_list_cursor];
+            }
+        } 
+        else if (policy == RAND)
+        {
+            if (!word_set.empty())
+            {
+                int random = rand() % word_set.size();
+                auto x = word_set.begin();
+                std::advance(x, random);
+                return &(*x);
+            }
+        }
+        
+        return nullptr;
     }
 
-    word_book_map[filename] = book;
-    return true;
-}
-
-void change_policy(POLICY new_policy)
-{
-    if (new_policy != policy)
+    void on_reply(POLICY policy, const std::string& answer, bool right)
     {
-        if (new_policy == ORDER)
+        if (right)
         {
-            it = test_set.begin();
+            if (policy == ORDER)
+                ++word_list_cursor;
+            else
+            {
+                Word w;
+                w.english = answer;
+                word_set.erase(w);
+            }
         }
         else
         {
+            if (policy == ORDER)
+            {
+                auto word = word_list[word_list_cursor];
+                word_list.erase(word_list.begin() + word_list_cursor);
+                word_list.push_back(word);
+            }
         }
     }
-}
 
-void next()
+    size_t word_count() const
+    {
+        return word_list.size();
+    }
+};
+
+//测验
+struct Test
 {
-    if (test_set.empty())
+    Test()
     {
-        std::cout << "没有下一题了" << std::endl;
-        quit = true;
-        return;
+        srand(time(nullptr));
     }
 
-    if (test_count() >= test_count_max)
+    static Test& instance()
     {
-        std::cout << "到达最大测试数量" << std::endl;
-        quit = true;
-        return;
+        static Test test;
+        return test;
     }
 
-    Word word;
-    if (policy == RAND)
+    void start()
     {
-        int random = rand() % test_set.size();
-        it = test_set.begin();
-        std::advance(it, random);
-        word = *it;
+        std::cout << "测试开始..." << std::endl;
+        select_word_book(WordBookManager::instance().default_book, range_all);
+        build_test_set();
+        next();
+        process_input();
+        print_result();
     }
-    else if (policy == ORDER)
+
+    void restart()
     {
-        if (it != test_set.end())
+        build_test_set();
+        clear_stat();
+        next();
+    }
+
+    int test_count() const
+    {
+        return right + wrong;
+    }
+
+    bool select_word_book(const std::string& bookname, range_t range)
+    {
+        if (!WordBookManager::instance().get(bookname))
         {
-            word = *it;
-            ++it;
+            return false;
+        }
+        word_book_selector.clear();
+        word_book_selector[bookname] = range;
+        return true;
+    }
+
+    void build_test_set()
+    {
+        test_word_info.clear();
+        for (auto x : word_book_selector)
+        {
+            std::cout << "build test set, process:" << x.first << std::endl;
+            if (auto book = WordBookManager::instance().get(x.first))
+            {
+                test_word_info.add_word_book(book, x.second);
+            }
+        }
+        std::cout << "测试集构建完毕(" << test_word_info.word_count() << ")" << std::endl;
+    }
+
+    void clear_stat()
+    {
+        right = 0;
+        wrong = 0;
+        wrong_word = "";
+        wrong_set.clear();
+    }
+
+    void change_policy(POLICY new_policy)
+    {
+        if (new_policy != policy)
+        {
+            policy = new_policy;
+            if (new_policy == ORDER)
+            {
+                test_word_info.word_list_cursor = -1;
+            }
         }
     }
-    else 
+
+    void next()
     {
-        std::cout << "policy error" << std::endl;
+        if (test_count() >= test_count_max)
+        {
+            std::cout << "到达最大测试数量" << std::endl;
+            quit = true;
+            return;
+        }
+
+        auto word = test_word_info.get_next_word(policy);
+        if (word == nullptr)
+        {
+            quit = true;
+        }
+        else
+        {
+            question = *word;
+            std::cout << "[" << (test_count()+1) << "] " << question.chinese << " ";
+        }
     }
 
-    std::cout << "[" << (right+wrong+1) << "] " << word.chinese << " ";
-}
-
-bool check(std::string answer)
-{
-    if (!wrong_word.empty())
+    bool check(std::string answer)
     {
-        if (answer == wrong_word)
+        if (!wrong_word.empty())
         {
+            if (answer == wrong_word)
+            {
+                std::cout << "=============================" << std::endl;
+                wrong_word = "";
+                test_word_info.on_reply(policy, answer, false);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        if (answer == question.english)
+        {
+            std::cout << "✅" << std::endl;
+            if (wrong_set.find(Word("", answer)) == wrong_set.end())
+            {
+                ++right;
+            }
+            test_word_info.on_reply(policy, answer, true);
             std::cout << "=============================" << std::endl;
-            wrong_word = "";
             return true;
         }
         else
         {
+            wrong_word = question.english;
+            if (wrong_set.insert(question).second)
+            {
+                ++wrong;
+            }
+            std::cout << "❎ " << question.english << std::endl;
             return false;
         }
     }
 
-    auto &word = *it;
-    if (answer == word.english)
+    void process_input()
     {
-        std::cout << "✅" << std::endl;
-        ++right;
-        test_set.erase(it);
-        std::cout << "=============================" << std::endl;
-        return true;
-    }
-    else
-    {
-        wrong_word = word.english;
-        if (word_list_wrong.insert(word).second)
+        while (!quit)
         {
-            ++wrong;
-        }
-        std::cout << "❎ " << word.english << std::endl;
-        return false;
-    }
-}
-
-void restart()
-{
-    build_test_set();
-    clear_stat();
-    next();
-}
-
-bool merge()
-{
-    std::fstream f;
-    f.open("file.list", std::ios::in);
-    if (!f.is_open())
-    {
-        std::cout << "open file.list failed\n";
-        f.close();
-        return false;
-    }
-
-    word_book_selected.clear();
-    char word_book[1024] = {};
-    while (f.getline(word_book, sizeof(word_book)))
-    {
-        if (load_word_book(word_book, false))
-        {
-            word_book_selected.insert(word_book);
-            std::cout << "merged:" << word_book << std::endl;
-        }
-    }
-    f.close();
-    return true;
-}
-
-bool save(const std::string& filename)
-{
-    std::ofstream f(filename, (std::ios_base::out|std::ios_base::trunc));
-    if (!f.is_open())
-    {
-        std::cout << "打开" << filename << "失败" << std::endl;
-        return false;
-    }
-
-    std::set<struct Word> wordset;
-    for (auto x : word_book_map)
-    {
-        for (auto y : x.second)
-        {
-            wordset.insert(y);
-        }
-    }
-
-    char buf[1024] = {};
-    for (auto x : wordset)
-    {
-        sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
-        f << buf << std::endl;
-    }
-    std::cout << "save OK, total word count:" << wordset.size() << std::endl;
-    f.close();
-    return true;
-}
-
-void console()
-{
-    while (!quit)
-    {
-        std::string input;
-        std::getline(std::cin, input);
-        std::istringstream iss(input);
-
-        std::string cmd;
-        iss >> cmd;
-
-        if (cmd == "Quit" || cmd == "q")
-        {
-            break;
-        }
-        else if (cmd == "Select")
-        {
-            std::string bookname;
-            iss >> bookname;
-            auto x = word_book_map.find(bookname);
-            if (x != word_book_map.end())
+            std::string input;
+            std::getline(std::cin, input);
+            
+            std::vector<std::string> string_list;
+            if (split_string(input, string_list) == 0)
             {
-                test_set = x->second;
+                std::cout << "empty input" << std::endl;
+                continue;
             }
-            std::cout << "选择单词表：" << bookname << "(" << test_set.size() << ") 重新开始测试..." << std::endl;
-            clear_stat();
-            next();
-        }
-        else if (cmd == "Load")
-        {
-            std::string bookname;
-            iss >> bookname;
-            load_word_book(bookname, true);
-            std::cout << "加载单词表：" << bookname << "完成" << std::endl;
-        }
-        else if (cmd == "Add")
-        {
-            std::string bookname;
-            iss >> bookname;
-            auto x = word_book_map.find(bookname);
-            if (x != word_book_map.end())
+
+            std::string& cmd = string_list[0];
+            if (cmd == "Quit" || cmd == "q")
             {
-                add_word_book(bookname);
-                word_book_selected.insert(bookname);
-                std::cout << "添加单词表：" << bookname << "成功" << std::endl;
+                break;
             }
-            std::cout << "添加单词表：" << bookname << "成功" << std::endl;
-        }
-        else if (cmd == "Merge")
-        {
-            if (merge())
+            else if (cmd == "Select")
+            {
+                std::string& bookname = string_list[1];
+                auto wordbook = WordBookManager::instance().get(bookname);
+                if (wordbook == nullptr)
+                {
+                    std::cout << "未找到单词表:" << bookname << std::endl;
+                    continue;
+                }
+
+                int from = 0;
+                int to = 10000;
+                if (string_list.size() == 4)
+                {
+                    from = atoi(string_list[2].c_str());
+                    to = atoi(string_list[3].c_str());
+                }
+
+                Test::instance().select_word_book(bookname, {from, to});
+                std::cout << "选择单词表：" << bookname << "(" << test_word_info.word_count() << ") 重新开始测试..." << std::endl;
+                restart();
+            }
+            else if (cmd == "Save")
+            {
+                std::string& bookname = string_list[1];
+                if (bookname.empty()) bookname = "save.txt";
+                save(bookname);
+            }
+            else if (cmd == "Restart")
             {
                 restart();
             }
-        }
-        else if (cmd == "Save")
-        {
-            std::string bookname;
-            iss >> bookname;
-            if (bookname.empty()) bookname = "save.txt";
-            save(bookname);
-        }
-        else if (cmd == "Restart")
-        {
-            restart();
-        }
-        else if (cmd == "Wordcount")
-        {
-            std::cout << "wordcount:" << test_set.size() << std::endl;
-        }
-        else if (cmd == "Order")
-        {
-            change_policy(ORDER);
-            std::cout << "策略改为顺序出题" << std::endl;
-            next();
-        }
-        else if (cmd == "Rand")
-        {
-            change_policy(RAND);
-            std::cout << "策略改为随机出题" << std::endl;
-            next();
-        }
-        else if (cmd == "Maxcount")
-        {
-            std::string max_count;
-            iss >> max_count;
-            int mc = atoi(max_count.c_str());
-            if (mc > 0)
+            else if (cmd == "Wordcount")
             {
-                test_count_max = mc;
+                std::cout << "wordcount:" << WordBookManager::instance().word_count() << std::endl;
             }
-            next();
-        }
-        else if (cmd == "Print")
-        {
-            std::string bookname;
-            iss >> bookname;
-            if (bookname.empty())
+#if 0
+            else if (cmd == "Load")
             {
-                bookname = *word_book_selected.begin();
+                std::string& bookname = string_list[1];
+                load_word_book(bookname, true);
+                std::cout << "加载单词表：" << bookname << "完成" << std::endl;
             }
-            std::cout << "打印单词本:" << bookname << std::endl;
-
-            auto x = word_book_map.find(bookname);
-            if (x != word_book_map.end())
+            else if (cmd == "Add")
             {
-                int i = 0;
-                for (auto &word : x->second)
+                std::string& bookname = string_list[1];
+                auto x = word_book_map.find(bookname);
+                if (x != word_book_map.end())
                 {
-                    //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
-                    printf("[%4d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
+                    add_word_book(bookname);
+                    word_book_selector.insert(bookname);
+                    std::cout << "添加单词表：" << bookname << "成功" << std::endl;
+                }
+                std::cout << "添加单词表：" << bookname << "成功" << std::endl;
+            }
+            else if (cmd == "Merge")
+            {
+                if (merge())
+                {
+                    restart();
                 }
             }
-        }
-        else if (cmd == "Help")
-        {
-            std::cout << "加载单词本：Load book-name" << std::endl;
-            std::cout << "选择单词本：Select book-name" << std::endl;
-            std::cout << "添加单词本：Add book-name" << std::endl;
-            std::cout << "打印单词本：Print book-name" << std::endl;
-            std::cout << "打印单词数：Wordcount" << std::endl;
-            std::cout << "设置最大测试单词数：Maxcount num" << std::endl;
-            std::cout << "合并所有单词本：Merge" << std::endl;
-            std::cout << "重新开始：Restart" << std::endl;
-            std::cout << "随机测试：Rand" << std::endl;
-            std::cout << "顺序测试：Order" << std::endl;
-            std::cout << "保存：Save [filename]" << std::endl;
-            std::cout << "退出：Quit or q" << std::endl;
-        }
-        else
-        {
-            if (check(cmd))
+            else if (cmd == "Order")
             {
+                change_policy(ORDER);
+                std::cout << "策略改为顺序出题" << std::endl;
                 next();
+            }
+            else if (cmd == "Rand")
+            {
+                change_policy(RAND);
+                std::cout << "策略改为随机出题" << std::endl;
+                next();
+            }
+            else if (cmd == "Maxcount")
+            {
+                std::string& max_count = string_list[1];
+                int mc = atoi(max_count.c_str());
+                if (mc > 0)
+                {
+                    test_count_max = mc;
+                }
+                next();
+            }
+#endif
+            else if (cmd == "Print")
+            {
+                std::string& bookname = string_list[1];
+                if (bookname.empty())
+                {
+                    bookname = Test::instance().word_book_selector.begin()->first;
+                }
+
+                std::cout << "打印单词本:" << bookname << std::endl;
+                if (auto book = WordBookManager::instance().get(bookname))
+                {
+                    int i = 0;
+                    for (auto &word : book->list)
+                    {
+                        //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
+                        printf("[%4d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
+                    }
+                }
+            }
+            else if (cmd == "Help")
+            {
+                std::cout << "加载单词本：Load book-name" << std::endl;
+                std::cout << "选择单词本：Select book-name [range_from, range_to)" << std::endl;
+                std::cout << "添加单词本：Add book-name" << std::endl;
+                std::cout << "打印单词本：Print book-name" << std::endl;
+                std::cout << "打印单词数：Wordcount" << std::endl;
+                std::cout << "设置最大测试单词数：Maxcount num" << std::endl;
+                std::cout << "合并所有单词本：Merge" << std::endl;
+                std::cout << "重新开始：Restart" << std::endl;
+                std::cout << "随机测试：Rand" << std::endl;
+                std::cout << "顺序测试：Order" << std::endl;
+                std::cout << "保存：Save [filename]" << std::endl;
+                std::cout << "退出：Quit or q" << std::endl;
             }
             else
             {
-                std::cout << "请重新输入...";
+                if (check(cmd))
+                {
+                    next();
+                }
+                else
+                {
+                    std::cout << "请重新输入...";
+                }
             }
         }
     }
-}
 
-void print_result()
-{
-    std::cout << "你一共测试了" << (right+wrong) << "个单词" << std::endl;
-    std::cout << "right：" << right << std::endl;
-    std::cout << "wrong：" << wrong << std::endl;
-    float ratio = (float)right / (right+wrong);
-    std::cout << "正确率：" << (ratio * 100) << "%" << std::endl;
-    std::cout << "学似逆水行舟，不进则退，勤加练习，才能每日进步!" << std::endl;
-
-    std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::trunc));
-    if (f.is_open())
+    void print_result()
     {
+        std::cout << "你一共测试了" << (right+wrong) << "个单词" << std::endl;
+        std::cout << "right：" << right << std::endl;
+        std::cout << "wrong：" << wrong << std::endl;
+        float ratio = (float)right / (right+wrong);
+        std::cout << "正确率：" << (ratio * 100) << "%" << std::endl;
+        std::cout << "学似逆水行舟，不进则退，勤加练习，才能每日进步!" << std::endl;
+
+        std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::trunc));
+        if (f.is_open())
+        {
+            char buf[1024] = {};
+            for (auto x : wrong_set)
+            {
+                sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
+                f << buf << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "打开wrong.txt失败" << std::endl;
+        }
+        f.close();
+        std::cout << "答错单词已存入wrong.txt" << std::endl;
+    }
+
+    bool save(const std::string& filename)
+    {
+        std::ofstream f(filename, (std::ios_base::out|std::ios_base::trunc));
+        if (!f.is_open())
+        {
+            std::cout << "打开" << filename << "失败" << std::endl;
+            return false;
+        }
+
+        std::set<struct Word> wordset;
+        for (auto x : WordBookManager::instance().books_map)
+        {
+            for (auto y : x.second.list)
+            {
+                wordset.insert(y);
+            }
+        }
+
         char buf[1024] = {};
-        for (auto x : word_list_wrong)
+        for (auto x : wordset)
         {
             sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
             f << buf << std::endl;
         }
+        std::cout << "save OK, total word count:" << wordset.size() << std::endl;
+        f.close();
+        return true;
     }
-    else
+
+#if 0
+    bool merge()
     {
-        std::cout << "打开wrong.txt失败" << std::endl;
+        std::fstream f;
+        f.open("file.list", std::ios::in);
+        if (!f.is_open())
+        {
+            std::cout << "open file.list failed\n";
+            f.close();
+            return false;
+        }
+
+        word_book_selector.clear();
+        char word_book[1024] = {};
+        while (f.getline(word_book, sizeof(word_book)))
+        {
+            if (load_word_book(word_book, false))
+            {
+                word_book_selector.insert(word_book);
+                std::cout << "merged:" << word_book << std::endl;
+            }
+        }
+        f.close();
+        return true;
     }
-    f.close();
-    std::cout << "答错单词已存入wrong.txt" << std::endl;
-}
+#endif
+
+    POLICY policy = ORDER;
+
+    std::map<std::string, range_t> word_book_selector;
+
+    TestWordInfo test_word_info;
+
+    std::string wrong_word;
+
+    std::set<Word> wrong_set;
+
+    Word question;
+
+    int right = 0;
+    int wrong = 0;
+    int test_count_max = 50;
+};
 
 int main(int argc, char* argv[])
 {
-    std::string filename = "g6.txt";
-    bool silent = true;
-
-    if (argc >= 2)
-    {
-        filename = argv[1];
-    }
-
-    if (argc >= 3)
-    {
-        silent = atoi(argv[2]);
-    }
-
-    srand(time(nullptr));
-
-    load_word_book(filename, silent);
-
-    if (test_set.empty())
-    {
-        word_book_selected.insert(filename);
-        build_test_set();
-    }
-
-    std::cout << "测试开始..." << std::endl;
-
-    next();
-    console();
-
-    print_result();
-
+    WordBookManager::instance().init(argc >= 2 ? argv[1] : "file.list");
+    Test::instance().start();
     return 0;    
 }
 
