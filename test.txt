@@ -1,0 +1,3 @@
+simple 简单
+edit 编辑
+session 会话
