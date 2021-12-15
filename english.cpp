@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <algorithm>
 
-bool quit = false;
-
 size_t split_string(std::string& input, std::vector<std::string>& output)
 {
     size_t pos = 0;
@@ -200,9 +198,9 @@ enum POLICY
     ORDER //顺序
 };
 
-using range_t = std::pair<int,int>;
+using range_t = std::pair<int, int>;
 
-const static range_t range_all = {0, 99999};
+const static range_t range_all = {0, std::numeric_limits<int>::max};
 
 struct TestWordInfo
 {
@@ -457,7 +455,7 @@ struct Test
                 }
 
                 int from = 0;
-                int to = 10000;
+                int to = std::numeric_limits<int>::max;
                 if (string_list.size() == 4)
                 {
                     from = atoi(string_list[2].c_str());
@@ -672,6 +670,8 @@ struct Test
     int right = 0;
     int wrong = 0;
     int test_count = 50;
+
+    bool quit = false;
 };
 
 int main(int argc, char* argv[])
