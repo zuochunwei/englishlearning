@@ -200,7 +200,7 @@ enum POLICY
 
 using range_t = std::pair<int, int>;
 
-const static range_t range_all = {0, std::numeric_limits<int>::max};
+const static range_t range_all = {0, std::numeric_limits<int>::max()};
 
 struct TestWordInfo
 {
@@ -297,9 +297,10 @@ struct Test
         return test;
     }
 
-    void start()
+    void start(const std::string filelist)
     {
         std::cout << "测试开始..." << std::endl;
+        WordBookManager::instance().init(filelist);
         select_word_book(WordBookManager::instance().default_book, range_all);
         build_test_set();
         next();
@@ -455,7 +456,7 @@ struct Test
                 }
 
                 int from = 0;
-                int to = std::numeric_limits<int>::max;
+                int to = std::numeric_limits<int>::max();
                 if (string_list.size() == 4)
                 {
                     from = atoi(string_list[2].c_str());
@@ -676,8 +677,7 @@ struct Test
 
 int main(int argc, char* argv[])
 {
-    WordBookManager::instance().init(argc >= 2 ? argv[1] : "file.list");
-    Test::instance().start();
+    Test::instance().start(argc >= 2 ? argv[1] : "file.list");
     return 0;    
 }
 
