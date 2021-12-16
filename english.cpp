@@ -552,7 +552,7 @@ struct Test
                 std::cout << "添加单词本：Add book-name" << std::endl;
                 std::cout << "打印单词本：Print book-name" << std::endl;
                 std::cout << "打印单词数：Wordcount" << std::endl;
-                std::cout << "设置测试单词数：Maxcount num" << std::endl;
+                std::cout << "设置测试单词数：Testcount num" << std::endl;
                 std::cout << "合并所有单词本：Merge" << std::endl;
                 std::cout << "重新开始：Restart" << std::endl;
                 std::cout << "随机测试：Rand" << std::endl;
