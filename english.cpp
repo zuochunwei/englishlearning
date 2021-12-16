@@ -8,8 +8,17 @@
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
+#include <iterator>
 
-size_t split_string(std::string& input, std::vector<std::string>& output)
+#if 1
+size_t split_string(const std::string& input, std::vector<std::string>& output)
+{
+    std::istringstream iss(input);
+    std::copy(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(), std::back_inserter(output));
+    return output.size();
+}
+#else
+size_t split_string(const std::string& input, std::vector<std::string>& output)
 {
     size_t pos = 0;
     size_t i = 0;
@@ -38,6 +47,7 @@ size_t split_string(std::string& input, std::vector<std::string>& output)
 
     return output.size();
 }
+#endif
 
 //单词
 struct Word
@@ -448,21 +458,12 @@ struct Test
             else if (cmd == "Select")
             {
                 std::string& bookname = string_list[1];
-                auto wordbook = WordBookManager::instance().get(bookname);
-                if (wordbook == nullptr)
-                {
-                    std::cout << "未找到单词表:" << bookname << std::endl;
-                    continue;
-                }
-
-                int from = 0;
-                int to = std::numeric_limits<int>::max();
+                int from = 0, to = std::numeric_limits<int>::max();
                 if (string_list.size() == 4)
                 {
                     from = atoi(string_list[2].c_str());
                     to = atoi(string_list[3].c_str());
                 }
-
                 Test::instance().select_word_book(bookname, {from, to});
                 std::cout << "选择单词表：" << bookname << "(" << test_word_info.word_count() << ") 重新开始测试..." << std::endl;
                 restart();
@@ -552,7 +553,7 @@ struct Test
                 std::cout << "添加单词本：Add book-name" << std::endl;
                 std::cout << "打印单词本：Print book-name" << std::endl;
                 std::cout << "打印单词数：Wordcount" << std::endl;
-                std::cout << "设置测试单词数：Testcount num" << std::endl;
+                std::cout << "设置测试单词数：Testcount wordcount" << std::endl;
                 std::cout << "合并所有单词本：Merge" << std::endl;
                 std::cout << "重新开始：Restart" << std::endl;
                 std::cout << "随机测试：Rand" << std::endl;
