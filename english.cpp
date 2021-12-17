@@ -87,8 +87,7 @@ struct WordBook
 
     WordBook() = default;
 
-    template <typename SET>
-    WordBook(const std::string& name, SET set) : name(name), list(set.begin(), set.end()) {}
+    WordBook(const std::string& name, const std::vector<Word>& list) : name(name), list(list) {}
 };
 
 //单词本管理器
@@ -151,7 +150,8 @@ struct WordBookManager
             return false;
         }
 
-        std::set<Word> set;
+        std::set<Word> set; //去重
+        std::vector<Word> word_list;
         char line[1024] = {};
         while (f.getline(line, sizeof(line)))
         {
@@ -170,6 +170,7 @@ struct WordBookManager
             {
                 if (set.insert(word).second && !silent)
                 {
+                    word_list.push_back(word);
                     std::cout << "["  << set.size() << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
                 }
             }
@@ -180,7 +181,7 @@ struct WordBookManager
             std::cout << "read " << wordbook << " completed, word count:" << set.size() << std::endl;
         }
 
-        add(WordBook(wordbook, set));
+        add(WordBook(wordbook, word_list));
         if (default_book.empty())
         {
             default_book = wordbook;
@@ -446,8 +447,7 @@ struct Test
             std::vector<std::string> string_list;
             if (split_string(input, string_list) == 0)
             {
-                std::cout << "empty input" << std::endl;
-                continue;
+                string_list.push_back("");
             }
 
             std::string& cmd = string_list[0];
