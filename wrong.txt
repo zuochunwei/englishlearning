@@ -1,2 +1,2 @@
-cost            花费         
-cut             切            
+colour          颜色         
+problem         问题         
