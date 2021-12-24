@@ -1,2 +1,0 @@
-colour          颜色         
-problem         问题         

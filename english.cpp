@@ -671,7 +671,7 @@ struct Test
 
     int right = 0;
     int wrong = 0;
-    int test_count = 50;
+    int test_count = 30;
 
     bool quit = false;
 };

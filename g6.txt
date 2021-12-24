@@ -96,7 +96,7 @@ afternoon 下午
 during 在..期间
 ache 疼
 happen 发生
-practice 练习
+practice 练习、实践
 because 因为
 hospital 医院
 finger 手指
@@ -140,7 +140,7 @@ afraid 害怕
 bowl 碗
 soup 汤
 pill 药片
-exercise 练习
+exercise 锻炼、练习
 smoking 抽烟
 computer 电脑
 should 应该
@@ -217,7 +217,6 @@ mark 标记
 finally 最终
 stone 石头
 loudly 大声地
-aloud 大声的
 military 军队
 retire 退休
 general 将军
@@ -271,5 +270,5 @@ trip 旅行
 outdoor 户外
 brave 勇敢
 mind 思想、想法、意识
-height 高
+height 高、高度
 size 大小、尺寸
