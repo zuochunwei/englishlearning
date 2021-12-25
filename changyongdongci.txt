@@ -31,7 +31,7 @@ code                          代码
 encode                        编码                        
 decode                        解码                        
 compare                       比较、相比、对比      
-evalute                       求值                        
+evaluate                      求值                        
 convert                       转换、切换、转变      
 build                         构建、建造               
 create                        创建                        

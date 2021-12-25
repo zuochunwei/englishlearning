@@ -428,11 +428,15 @@ struct Test
         else
         {
             testing_question = *word;
-            std::cout << "[" << (get_test_count()+1) << "] " << testing_question.chinese << " ";
+            std::cout << "[" << (get_test_count()+1) << "] ";
+            if (mode == mode_spell)
+                std::cout << testing_question.chinese << " ";
+            else
+                std::cout << testing_question.english << " ";
         }
     }
 
-    bool check(std::string answer)
+    bool check_spell(const std::string& answer)
     {
         if (!wrong_word.empty())
         {
@@ -453,9 +457,7 @@ struct Test
         {
             std::cout << "✅" << std::endl;
             if (wrong_set.find(Word("", answer)) == wrong_set.end())
-            {
                 ++right;
-            }
             test_word_info.on_reply(policy, answer, true);
             std::cout << "=============================" << std::endl;
             return true;
@@ -464,12 +466,35 @@ struct Test
         {
             wrong_word = testing_question.english;
             if (wrong_set.insert(testing_question).second)
-            {
                 ++wrong;
-            }
-            std::cout << "❎ " << testing_question.english << std::endl;
+            std::cout << "❌ " << testing_question.english << std::endl;
             return false;
         }
+    }
+
+    bool check_interpret(const std::string& answer)
+    {
+        if (answer == "y") 
+        {
+            ++right;
+        }
+        else
+        {
+            if (wrong_set.insert(testing_question).second)
+                ++wrong;
+        }
+        test_word_info.on_reply(policy, testing_question.english, true);
+        std::cout << "释义：" << testing_question.chinese << " {" << right << "✅ " << wrong << "❌}" << std::endl;
+        std::cout << "=============================" << std::endl;
+        return true;
+    }
+
+    bool check(const std::string& answer)
+    {
+        if (mode == mode_spell)
+            return check_spell(answer);
+        else
+            return check_interpret(answer);
     }
 
     void process_input()
@@ -713,9 +738,15 @@ struct Test
 
     int right = 0;
     int wrong = 0;
-    int test_count = 30;
+    int test_count = 100;
 
     bool quit = false;
+
+    enum MODE
+    {
+        mode_spell,
+        mode_interpret,
+    } mode = mode_interpret;
 };
 
 int main(int argc, char* argv[])
