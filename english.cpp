@@ -91,8 +91,7 @@ struct WordBook
 
     bool write_back() const
     {
-        std::fstream f;
-        f.open(name, std::ios::out | std::ios::trunc);
+        std::fstream f(name, (std::ios::out | std::ios::trunc));
         if (!f.is_open())
         {
             std::cout << "open file " << name << " for writing failed" << std::endl;
@@ -506,9 +505,10 @@ struct Test
             }
             else if (cmd == "Save")
             {
-                std::string& bookname = string_list[1];
-                if (bookname.empty()) bookname = "save.txt";
-                save(bookname);
+                if (string_list.size() == 2)
+                    save(string_list[1]);
+                else
+                    save("save.txt");
             }
             else if (cmd == "Writeback")
             {
@@ -644,6 +644,7 @@ struct Test
 
     bool save(const std::string& filename)
     {
+        std::cout << "save-start..." << std::endl;
         std::ofstream f(filename, (std::ios_base::out|std::ios_base::trunc));
         if (!f.is_open())
         {
@@ -655,6 +656,7 @@ struct Test
         std::set<struct Word> wordset;
         for (auto x : WordBookManager::instance().books_map)
         {
+            std::cout << "book:" << x.first << std::endl;
             for (auto y : x.second.list)
             {
                 wordset.insert(y);
@@ -664,10 +666,10 @@ struct Test
         char buf[1024] = {};
         for (auto x : wordset)
         {
-            sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
-            f << buf;
+            sprintf(buf, "%-40s%-40s", x.english.c_str(), x.chinese.c_str());
+            f << buf << std::endl;
         }
-        std::cout << "save OK, total word count:" << wordset.size() << std::endl;
+        std::cout << "save-done, total word count:" << wordset.size() << std::endl;
         f.close();
         return true;
     }
