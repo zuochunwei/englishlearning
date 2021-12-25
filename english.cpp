@@ -100,10 +100,10 @@ struct WordBook
             return false;
         }
 
-        char buf[256] = {};
+        char buf[1024] = {};
         for (auto x : list)
         {
-            sprintf(buf, "%-20s%-20s\n", x.english.c_str(), x.chinese.c_str());
+            sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
             f << buf;
         }
 
@@ -630,8 +630,8 @@ struct Test
             char buf[1024] = {};
             for (auto x : wrong_set)
             {
-                sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
-                f << buf << std::endl;
+                sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
+                f << buf;
             }
         }
         else
@@ -664,8 +664,8 @@ struct Test
         char buf[1024] = {};
         for (auto x : wordset)
         {
-            sprintf(buf, "%-15s %-15s", x.english.c_str(), x.chinese.c_str());
-            f << buf << std::endl;
+            sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
+            f << buf;
         }
         std::cout << "save OK, total word count:" << wordset.size() << std::endl;
         f.close();
