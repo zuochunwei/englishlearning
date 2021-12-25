@@ -88,6 +88,29 @@ struct WordBook
     WordBook() = default;
 
     WordBook(const std::string& name, const std::vector<Word>& list) : name(name), list(list) {}
+
+    bool write_back() const
+    {
+        std::fstream f;
+        f.open(name, std::ios::out | std::ios::trunc);
+        if (!f.is_open())
+        {
+            std::cout << "open file " << name << " for writing failed" << std::endl;
+            f.close();
+            return false;
+        }
+
+        char buf[256] = {};
+        for (auto x : list)
+        {
+            sprintf(buf, "%-20s%-20s\n", x.english.c_str(), x.chinese.c_str());
+            f << buf;
+        }
+
+        std::cout << "write back " << name << " OK" << std::endl;
+        f.close();
+        return true;
+    }
 };
 
 //单词本管理器
@@ -186,6 +209,7 @@ struct WordBookManager
         {
             default_book = wordbook;
         }
+        f.close();
         return true;
     }
 
@@ -197,6 +221,18 @@ struct WordBookManager
             count += x.second.list.size();
         }
         return count;
+    }
+
+    bool write_back() const
+    {
+        for (auto x : books_map)
+        {
+            if (!x.second.write_back())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     std::map<std::string, WordBook> books_map;
@@ -473,6 +509,10 @@ struct Test
                 std::string& bookname = string_list[1];
                 if (bookname.empty()) bookname = "save.txt";
                 save(bookname);
+            }
+            else if (cmd == "Writeback")
+            {
+                WordBookManager::instance().write_back();
             }
             else if (cmd == "Restart")
             {
