@@ -1,10 +1,5 @@
-compact                       压缩                        
-describe                      描述                        
-eliminate                     排除、清除、消除、淘汰、干掉
-expand                        扩充                        
-publish                       发布、出版               
-receive                       接收、收到               
-refer                         参考、指、涉及、提到
-setup                         设置、安装、体制      
-sort                          排序                        
-support                       支持                        
+show                          显示、展示               
+store                         存储、保存、商店      
+hence                         因此                        
+illustrate                    说明、用图表解释、显示
+occupy                        占据、占领               

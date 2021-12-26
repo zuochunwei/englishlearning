@@ -58,7 +58,8 @@ time 时间
 memory 内存
 manage 管理
 string 字符串
-null 空
+null 无效的、零值的，空的
+empty 空的、空洞的、空虚的、无意义的
 number 数字
 common 公共、公用
 public 公开的，公开
@@ -92,6 +93,8 @@ set 集合
 list 列表
 body 体
 provide 提供
+design 设计
+mode 模式
 case 案例、小案例
 example 例子
 struct 结构

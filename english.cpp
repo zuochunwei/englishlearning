@@ -640,6 +640,25 @@ struct Test
         }
     }
 
+    std::set<Word> read_wrong_txt() const
+    {
+        std::set<Word> set;
+
+        std::fstream f;
+        f.open("wrong.txt", std::ios::in);
+
+        char line[1024] = {};
+        while (f.getline(line, sizeof(line)))
+        {
+            std::istringstream iss(line);
+            Word word;
+            iss >> word.english >> word.chinese;
+            set.insert(word);
+        }
+        
+        return set;
+    }
+
     void print_result()
     {
         std::cout << "你一共测试了" << (right+wrong) << "个单词" << std::endl;
@@ -649,22 +668,26 @@ struct Test
         std::cout << "正确率：" << (ratio * 100) << "%" << std::endl;
         std::cout << "学似逆水行舟，不进则退，勤加练习，才能每日进步!" << std::endl;
 
-        std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::trunc));
-        if (f.is_open())
+        std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::app));
+        if (!f.is_open())
         {
-            char buf[1024] = {};
-            for (auto x : wrong_set)
+            std::cout << "打开wrong.txt失败" << std::endl;
+            f.close();
+            return;
+        }
+
+        auto set = read_wrong_txt();
+        for (auto x : wrong_set)
+        {
+            if (set.find(x) == set.end())
             {
+                char buf[1024];
                 sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
                 f << buf;
             }
         }
-        else
-        {
-            std::cout << "打开wrong.txt失败" << std::endl;
-        }
-        f.close();
         std::cout << "答错单词已存入wrong.txt" << std::endl;
+        f.close();
     }
 
     bool save(const std::string& filename)
