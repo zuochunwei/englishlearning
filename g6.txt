@@ -33,7 +33,7 @@ rat                           老鼠
 decide                        决定                        
 order                         顺序                        
 choose                        选择                        
-start                         开始                        
+start                         启动、开始                        
 tie                           领带                        
 visitor                       访问者                     
 world                         世界                        
@@ -228,7 +228,7 @@ medal                         奖牌
 gold                          金、金的                  
 silver                        银的                        
 bronze                        铜的                        
-athelete                      运动员                     
+athlete                       运动员                     
 festival                      节日                        
 sport                         运动                        
 such                          如此                        
@@ -248,11 +248,11 @@ wash                          洗
 step                          步                           
 city                          城市                        
 sentence                      句子                        
-captial                       首都                        
+capital                       首都                        
 event                         事件                        
 small                         小的                        
 poster                        海报                        
-trip                          旅行                        
+trip                          旅行                       
 outdoor                       户外                        
 brave                         勇敢                        
 mind                          思想、想法、意识      

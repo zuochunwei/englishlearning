@@ -1,4 +1,5 @@
 program 程序
+method 方法，函数
 code 代码
 coding 编程，编写代码
 source 源、源码、来源

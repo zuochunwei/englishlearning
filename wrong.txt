@@ -1,5 +1,0 @@
-show                          显示、展示               
-store                         存储、保存、商店      
-hence                         因此                        
-illustrate                    说明、用图表解释、显示
-occupy                        占据、占领               

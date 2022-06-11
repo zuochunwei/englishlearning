@@ -102,7 +102,7 @@ struct WordBook
         char buf[1024] = {};
         for (auto x : list)
         {
-            sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
+            sprintf(buf, "%-30s%s\n", x.english.c_str(), x.chinese.c_str());
             f << buf;
         }
 
@@ -193,7 +193,7 @@ struct WordBookManager
                 if (set.insert(word).second && !silent)
                 {
                     word_list.push_back(word);
-                    std::cout << "["  << set.size() << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
+                    //std::cout << "["  << set.size() << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
                 }
             }
         }
@@ -668,7 +668,8 @@ struct Test
         std::cout << "正确率：" << (ratio * 100) << "%" << std::endl;
         std::cout << "学似逆水行舟，不进则退，勤加练习，才能每日进步!" << std::endl;
 
-        std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::app));
+        //std::ofstream f("wrong.txt", (std::ios_base::out|std::ios_base::app));
+        std::ofstream f("wrong.txt", (std::ios_base::out));
         if (!f.is_open())
         {
             std::cout << "打开wrong.txt失败" << std::endl;
@@ -714,7 +715,7 @@ struct Test
         char buf[1024] = {};
         for (auto x : wordset)
         {
-            sprintf(buf, "%-40s%-40s", x.english.c_str(), x.chinese.c_str());
+            sprintf(buf, "%-40s%s", x.english.c_str(), x.chinese.c_str());
             f << buf << std::endl;
         }
         std::cout << "save-done, total word count:" << wordset.size() << std::endl;
@@ -747,7 +748,7 @@ struct Test
         return true;
     }
 
-    POLICY policy = ORDER;
+    POLICY policy = RAND;
 
     std::map<std::string, range_t> word_book_selector;
 
@@ -761,7 +762,7 @@ struct Test
 
     int right = 0;
     int wrong = 0;
-    int test_count = 100;
+    int test_count = 250;
 
     bool quit = false;
 
@@ -769,7 +770,7 @@ struct Test
     {
         mode_spell,
         mode_interpret,
-    } mode = mode_interpret;
+    } mode = mode_spell;
 };
 
 int main(int argc, char* argv[])
