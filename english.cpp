@@ -484,8 +484,11 @@ struct Test
                 ++wrong;
         }
         test_word_info.on_reply(policy, testing_question.english, true);
-        std::cout << "释义：" << testing_question.chinese << " {" << right << "✅ " << wrong << "❌}" << std::endl;
-        std::cout << "=============================" << std::endl;
+        char buf[1024];
+        sprintf(buf, "释义：%-30s ✅%-3d ❌%-3d\n"
+                "=========================================\n", 
+                testing_question.chinese.c_str(), right, wrong); 
+        std::cout << buf;
         return true;
     }
 
