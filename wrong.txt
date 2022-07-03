@@ -1,0 +1,2 @@
+provide                       提供                        
+utility                       程式、实用程序         
