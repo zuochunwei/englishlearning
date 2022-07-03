@@ -55,8 +55,45 @@ struct Word
     std::string chinese;
     std::string english;
 
-    Word() : chinese("空"), english("none") {}
+    Word() : chinese(""), english("") {}
     Word(const std::string& chinese, const std::string& english) : chinese(chinese), english(english) {}
+
+	static bool space_c(char c)
+	{
+		return (c == ' ' || c == '\t');
+	}
+
+	void trim(std::string &s) 
+	{
+		while (!s.empty() && space_c(s.front())) s = s.substr(1);
+		while (!s.empty() && space_c(s.back())) s.pop_back();
+	}
+
+	bool read_from(char* buf) {
+		std::string s(buf);
+		for (size_t i = 0; i < s.size(); ++i)
+		{
+			if (s[i] == '#') 
+			{
+				s = s.substr(0, i);
+				break;
+			}
+		}
+		trim(s); if (s.empty()) return false;
+
+		char seperator = ' ';
+		if (s.find('|') != std::string::npos) seperator = '|';
+
+		chinese = ""; english = "";
+
+		auto pos = s.find(seperator);
+		if (pos == std::string::npos) return false;
+
+		english = s.substr(0, pos); chinese = s.substr(pos+1);
+
+		trim(chinese); trim(english);
+		return is_valid();
+	}
 
     bool operator<(const Word& rhs) const
     {
@@ -177,25 +214,18 @@ struct WordBookManager
         char line[1024] = {};
         while (f.getline(line, sizeof(line)))
         {
-            std::istringstream iss(line);
             Word word;
-            iss >> word.english >> word.chinese;
-            if (!word.is_valid())
+            if (!word.read_from(line))
             {
                 printf("invalid word\n");
                 continue;
             }
 
-            std::string skip;
-            iss >> skip;
-            if (skip != "x")
-            {
-                if (set.insert(word).second && !silent)
-                {
-                    word_list.push_back(word);
-                    //std::cout << "["  << set.size() << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
-                }
-            }
+			if (set.insert(word).second && !silent)
+			{
+				word_list.push_back(word);
+				//std::cout << "["  << set.size() << "] read word: " << word.chinese << " " << word.english << " " << skip << std::endl;
+			}
         }
 
         if (!silent) 
@@ -466,7 +496,16 @@ struct Test
         {
             wrong_word = testing_question.english;
             if (wrong_set.insert(testing_question).second)
+			{
                 ++wrong;
+
+				std::ofstream f("wrong.txt", (std::ios_base::out | std::ios_base::app));
+				char buf[1024];
+				sprintf(buf, "%-30s%-30s\n", testing_question.english.c_str(), testing_question.chinese.c_str());
+				f << buf;
+				f.close();
+			}
+
             std::cout << "❌ " << testing_question.english << std::endl;
             return false;
         }
@@ -537,6 +576,13 @@ struct Test
                     save(string_list[1]);
                 else
                     save("save.txt");
+            }
+            else if (cmd == "Dump")
+            {
+                if (string_list.size() == 2)
+                    dump(string_list[1]);
+                else
+                    dump("dump.txt");
             }
             else if (cmd == "Writeback")
             {
@@ -610,7 +656,7 @@ struct Test
                     for (auto &word : book->list)
                     {
                         //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
-                        printf("[%4d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
+                        printf("[%3d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
                     }
                 }
             }
@@ -694,9 +740,49 @@ struct Test
         f.close();
     }
 
-    bool save(const std::string& filename)
+	bool dump(const std::string& filename) 
+	{
+        std::cout << "dump_start..." << std::endl;
+        std::set<struct Word> wordset;
+        for (auto x : WordBookManager::instance().books_map)
+        {
+            std::cout << "book:" << x.first << std::endl;
+            for (auto y : x.second.list)
+            {
+                wordset.insert(y);
+            }
+        }
+
+		int i = 0;
+		std::unique_ptr<std::ofstream> f;
+        for (auto x : wordset)
+        {
+			char buf[1024];
+			if (i++ % 100 == 0) {
+				sprintf(buf, "%s.%d", filename.c_str(), i/100);
+				f.reset(new std::ofstream(buf, (std::ios_base::out|std::ios_base::trunc)));
+				if (!f->is_open())
+				{
+					std::cout << "打开" << buf << "失败" << std::endl;
+					f->close();
+					return false;
+				}
+			}
+
+            sprintf(buf, "%s ", x.english.c_str());
+            (*f) << buf;
+			if (i % 10 == 0) (*f) << std::endl;
+        }
+
+		(*f) << std::endl;
+        
+        std::cout << "dump_done, total word count:" << wordset.size() << std::endl;
+        return true;
+	}
+
+    bool save(const std::string& filename = "save.txt")
     {
-        std::cout << "save-start..." << std::endl;
+         std::cout << "save-start..." << std::endl;
         std::ofstream f(filename, (std::ios_base::out|std::ios_base::trunc));
         if (!f.is_open())
         {
@@ -765,7 +851,7 @@ struct Test
 
     int right = 0;
     int wrong = 0;
-    int test_count = 250;
+    int test_count = 1000;
 
     bool quit = false;
 

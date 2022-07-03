@@ -39,7 +39,7 @@ because                       因为
 hospital                      医院                        
 finger                        手指                        
 tomorrow                      明天                        
-leg                           胳膊                        
+leg                           腿
 blood                         血                           
 doctor                        医生、博士               
 answer                        回答                        

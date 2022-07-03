@@ -49,7 +49,7 @@ rich 富有的
 poor 贫穷的、可怜的
 oil 油
 for-example 例如
-land 地面
+land 陆地、地面
 life 生活、生命
 both 都
 roadside 马路边
@@ -65,7 +65,7 @@ keep 保持
 tail 尾巴
 rain 雨
 summer 夏天
-sick 生病的
+sick 生病的、恶心的、厌倦的
 hold-on 等等
 stay 呆、停留
 weather 天气
