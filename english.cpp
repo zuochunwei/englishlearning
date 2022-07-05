@@ -217,7 +217,7 @@ struct WordBookManager
             Word word;
             if (!word.read_from(line))
             {
-                printf("invalid word\n");
+                printf("book:%s invalid word: %s\n", wordbook.c_str(), line);
                 continue;
             }
 

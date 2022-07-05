@@ -1,21 +1,20 @@
-manipulate                    操作、操纵              manipulate manipulate manipulate manipulate manipulate manipulate
-reference                     引用、参考               reference reference reference reference reference reference
-define                        定义                        define define define define define define
-launch                        发射、启动               launch launch launch launch launch launch
-identify                      识别、鉴定、认出、确认身份  identify identify identify identify identify identify
-specify                       指定、规定、明确说明 specify specify specify specify specify specify
-free                          释放、空闲、免费      free free free free free free
-alloc                         分配                        alloc alloc alloc alloc alloc alloc
-contain                       包含、包括               contain contain contain contain contain contain
-acquire                       (通过努力)获得、得到、购得 acquire acquire acquire acquire acquire acquire
-via                           通过..某方式             via via via via via via
-block                         块、一块、阻塞 block block block block block block
-abandon                       放弃、禁止、不准、遗弃 abandon abandon abandon abandon abandon abandon
-conflict                      冲突                        conflict conflict conflict conflict conflict conflict
-assign                        赋值                        assign assign assign assign assign assign
-associate                     关联、连接、联系、联合、交往 associate associate associate associate associate associate
-access                        存取、访问、进入、通道 access access access access access access
-execute                       执行、运行               execute execute execute execute execute execute
-seperate                      分开、区分、独立      seperate seperate seperate seperate seperate seperate
-complete                      完成、结束、填写      complete complete complete complete complete completekkkkkkk
-
+manipulate                    操作、操纵
+reference                     引用、参考
+define                        定义
+launch                        发射、启动
+identify                      识别、鉴定、认出、确认身份
+specify                       指定、规定、明确说明
+free                          释放、空闲、免费
+alloc                         分配
+contain                       包含、包括
+acquire                       (通过努力)获得、得到、购得
+via                           通过..某方式
+block                         块、一块、阻塞
+abandon                       放弃、禁止、不准、遗弃
+conflict                      冲突
+assign                        赋值
+associate                     关联、连接、联系、联合、交往
+access                        存取、访问、进入、通道
+execute                       执行、运行
+seperate                      分开、区分、独立
+complete                      完成、结束、填写
