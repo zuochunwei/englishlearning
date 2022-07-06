@@ -10,7 +10,8 @@ fit 适合的；适合
 determine 确定；决定
 lack 缺少；缺乏
 bound 边界；边框
-routine 实用程序；例程
+routine 例程；常规的；日常的；例行程序
+utility 实用程序；公用程序；公共事业
 conform 符合；适合..
 terminate 终止；结束
 source 来源；源
