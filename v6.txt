@@ -40,3 +40,4 @@ plus                          加、加法
 incorporate                   合并、包含、吸收、将..包括在内
 involve                       包括、需要               
 arrange                       安排                        
+pretend                       假装

@@ -65,7 +65,7 @@ celebrate                               庆祝
 change                                  改变、修改
 character                               字符、角色
 charge                                  充电、收费
-check                                   判断
+check                                   检查;校验；判断
 choose                                  选择
 clean                                   清理、打扫
 clear                                   清空，清楚的

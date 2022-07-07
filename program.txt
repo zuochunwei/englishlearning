@@ -19,7 +19,7 @@ variable 变量
 type 类型
 parameter 参数（形参）
 call 调用
-check 判断
+check 检查；判断；校验
 test 测试
 point 点，指向
 pointer 指针
