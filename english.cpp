@@ -632,7 +632,7 @@ struct Test
             }
             else if (cmd == "Print")
             {
-                std::string& bookname = string_list[1];
+                std::string bookname = (string_list.size() > 1 ? string_list[1] : "");
                 if (bookname.empty())
                     bookname = Test::instance().word_book_selector.begin()->first;
 
@@ -643,7 +643,7 @@ struct Test
                     for (auto &word : book->list)
                     {
                         //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
-                        printf("[%3d] %-15s %-15s\n", ++i, word.english.c_str(), word.chinese.c_str());
+                        printf("[%3d] %-80s %-80s\n", ++i, word.english.c_str(), word.chinese.c_str());
                     }
                 }
             }
@@ -715,7 +715,7 @@ struct Test
             if (set.find(x) == set.end())
             {
                 char buf[1024];
-                sprintf(buf, "%-30s%-30s\n", x.english.c_str(), x.chinese.c_str());
+                sprintf(buf, "%-80s%-80s\n", x.english.c_str(), x.chinese.c_str());
                 f << buf;
             }
         }
