@@ -221,6 +221,9 @@ struct WordBookManager
                 continue;
             }
 
+            //std::cout << "english:" << word.english << std::endl;
+            //std::cout << "chinese:" << word.chinese << std::endl;
+
 			if (set.insert(word).second && !silent)
 			{
 				word_list.push_back(word);
@@ -548,15 +551,11 @@ struct Test
             
             std::vector<std::string> string_list;
             if (split_string(input, string_list) == 0)
-            {
                 string_list.push_back("");
-            }
 
             std::string& cmd = string_list[0];
             if (cmd == "Quit" || cmd == "q")
-            {
                 break;
-            }
             else if (cmd == "Select")
             {
                 std::string& bookname = string_list[1];
@@ -585,17 +584,11 @@ struct Test
                     dump("dump.txt");
             }
             else if (cmd == "Writeback")
-            {
                 WordBookManager::instance().write_back();
-            }
             else if (cmd == "Restart")
-            {
                 restart();
-            }
             else if (cmd == "Wordcount")
-            {
                 std::cout << "wordcount:" << WordBookManager::instance().word_count() << std::endl;
-            }
             else if (cmd == "Order")
             {
                 Test::instance().change_policy(ORDER);
@@ -628,26 +621,20 @@ struct Test
             else if (cmd == "Merge")
             {
                 if (Test::instance().merge())
-                {
                     Test::instance().restart();
-                }
             }
             else if (cmd == "Testcount")
             {
                 int max_count = atoi(string_list[1].c_str());
                 if (max_count > 0)
-                {
                     Test::instance().test_count = max_count;
-                }
                 next();
             }
             else if (cmd == "Print")
             {
                 std::string& bookname = string_list[1];
                 if (bookname.empty())
-                {
                     bookname = Test::instance().word_book_selector.begin()->first;
-                }
 
                 std::cout << "打印单词本:" << bookname << std::endl;
                 if (auto book = WordBookManager::instance().get(bookname))
@@ -677,14 +664,10 @@ struct Test
             }
             else
             {
-                if (check(cmd))
-                {
+                if (check(input))
                     next();
-                }
                 else
-                {
                     std::cout << "请重新输入...";
-                }
             }
         }
     }
