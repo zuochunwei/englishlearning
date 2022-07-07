@@ -25,3 +25,7 @@ recommend 推荐
 portion 部分; (食物的)一份，一客; 分享的部分; 分担的责任
 negative 负数
 integer 整数；整数的
+comment 评论；注释
+chart 图表
+scope 范围
+lookup 查找；检查
