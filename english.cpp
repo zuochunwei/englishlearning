@@ -643,7 +643,7 @@ struct Test
                     for (auto &word : book->list)
                     {
                         //std::cout << "[" << ++i << "] " << word.english << " " << word.chinese << std::endl;
-                        printf("[%3d] %-80s %-80s\n", ++i, word.english.c_str(), word.chinese.c_str());
+                        printf("[%03d] %-25s %-25s\n", ++i, word.english.c_str(), word.chinese.c_str());
                     }
                 }
             }

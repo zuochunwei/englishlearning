@@ -1,22 +1,27 @@
-perform 执行；执行; 履行; 演出; 做; 工作
-page 页、页面
-pass 通过、走过、及格
-bypass 绕过；避开；旁路
-collect 收集
-complete 完成；结束
-decide 决定；裁决；选定
-behave 表现；行为
-require 需要；依靠；依赖
-seem 看起来像；似乎；好像
-pick 挑选；选择；摘出
-reduce 减小、缩小（尺寸、数量、价格等）
-satisfy 满足；使满足
-ensure 确保；保证
-transfer 转换；转变；换乘
-query 查询；询问
-disk 磁盘；盘；硬盘
-avoid 避免；避开
-expect 期望；期待
-due-to 归因于；因为
-expend 扩大；增加；增强；扩展
-adjust 调整；调节; 适应; 习惯; 整理;
+perform                       执行；执行; 履行; 演出; 做; 工作
+edit                          编辑
+paste                         粘贴
+install                       安装
+restart                       重新启动
+screen                        屏幕
+page                          页、页面
+pass                          通过、走过、及格
+bypass                        绕过；避开；旁路
+collect                       收集
+complete                      完成；结束
+decide                        决定；裁决；选定
+behave                        表现；行为
+require                       需要；依靠；依赖
+seem                          看起来像；似乎；好像
+pick                          挑选；选择；摘出
+reduce                        减小、缩小（尺寸、数量、价格等）
+satisfy                       满足；使满足
+ensure                        确保；保证
+transfer                      转换；转变；换乘
+query                         查询；询问
+disk                          磁盘；盘；硬盘
+avoid                         避免；避开
+expect                        期望；期待
+due-to                        归因于；因为
+expend                        扩大；增加；增强；扩展
+adjust                        调整；调节; 适应; 习惯; 整理;
