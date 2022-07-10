@@ -66,7 +66,7 @@ public                        公开的，公开
 private                       私有的
 float                         浮动、浮点数
 define                        定义
-scope                         范围
+scope                         范围；(做或实现某事的)机会，能力; 
 rule                          规则、纪律
 continue                      继续
 const                         常量
@@ -77,10 +77,10 @@ member                        成员
 access                        访问
 increment                     增加
 decrement                     减少
-compare                       比较
+compare                       比较；对比
 less                          小于
 greater                       大于
-than                          比较
+than                          比；比..
 equal                         等于
 size                          大小、尺寸
 block                         块
@@ -97,7 +97,7 @@ mode                          模式
 case                          案例、小案例
 example                       例子
 struct                        结构
-range                         范围
+range                         范围;界限; 区间
 store                         保存、存储、商店
 save                          保存、存盘
 link                          链接、连接

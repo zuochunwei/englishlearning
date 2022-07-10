@@ -1,0 +1,4 @@
+basic                                                                           基本的、基础的                                                           
+float                                                                           浮动、浮点数                                                              
+range                                                                           范围                                                                          
+statement                                                                       语句                                                                          
