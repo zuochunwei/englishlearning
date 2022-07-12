@@ -4,3 +4,7 @@ i have subscribed to that magazine for three years | 我订阅那种杂志已经
 it is an honour for me to be invited to speak here | 我很荣幸应邀在这里讲话
 in order to find a better job, he decided to study programming | 为了找一份更好的工作，他决定学习编程
 it is obvious that he doesn’t know how to repair a car | 很明显，他不知道怎样修理汽车
+you might want to know if there are some guidelines for selecting books | 你可能想知道是否有一些挑选书的指导原则
+you will focus on arrays and pointers in this chapter and learn more about using them in next chapter | 本章你将聚焦在数组和指针，并且在下一章学习更多使用它们
+this book provides foundational concepts and techniques of c programming for people that want to learn c programming | 这本书为想要学习c编程的人提供C编程的基础概念和技术 
+you should know the differences between c and c++ programming | 你应该知道C和C++编程的不同点（差异）
