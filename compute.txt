@@ -289,7 +289,7 @@ thus 因此；所以；从而
 cause 引起；导致
 crash 崩溃；崩
 avoid 避免；规避
-lanuch 发射；发起；发动；启动
+launch 发射；发起；发动；启动
 critical 关键的；重要的
 organize 组织（动词）
 organization 组织（名词）
