@@ -8,3 +8,9 @@ you might want to know if there are some guidelines for selecting books | 你可
 you will focus on arrays and pointers in this chapter and learn more about using them in next chapter | 本章你将聚焦在数组和指针，并且在下一章学习更多使用它们
 this book provides foundational concepts and techniques of c programming for people that want to learn c programming | 这本书为想要学习c编程的人提供C编程的基础概念和技术 
 you should know the differences between c and c++ programming | 你应该知道C和C++编程的不同点（差异）
+Knowing how to organize data is a critical part of c programming | 知道如何组织数据是C编程的一个关键的部分
+you will learn the reason why you must calculate the grid size in this way in the next chapter | 你将在下一章学习到为什么你必须用这种方式计算格子大小的原因
+you combine the code together into a file named a.c as follows | 你像下面这样，把代码拼一起放到文件a.c里
+it is important to distinguish between the type and the object | 区分类型和对象是重要的
+for a given problem | 对一个给定的问题
+you will learn more details about these factors from examples in subsequent chapters in this book | 你将从这本书的接下来的章节的例子中，学到更多关于这些因素的细节
