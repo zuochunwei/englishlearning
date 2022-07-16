@@ -315,3 +315,4 @@ the-preceding 之前的；上述的；前面提到的
 the-following 接下来的；下列的
 expose 暴露；揭露；阐述；陈述
 subsequent 随后的；下面的；之后的；接后的；后来的
+demonstrate 示范; 演示；证明；证实
