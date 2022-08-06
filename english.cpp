@@ -792,7 +792,7 @@ struct Test
         char buf[1024] = {};
         for (auto x : wordset)
         {
-            sprintf(buf, "%-40s%s", x.english.c_str(), x.chinese.c_str());
+            sprintf(buf, "%-40s | %s", x.english.c_str(), x.chinese.c_str());
             f << buf << std::endl;
         }
         std::cout << "save-done, total word count:" << wordset.size() << std::endl;
