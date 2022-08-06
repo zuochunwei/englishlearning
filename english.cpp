@@ -79,19 +79,23 @@ struct Word
 				break;
 			}
 		}
-		trim(s); if (s.empty()) return false;
+		trim(s); 
+		if (s.empty()) return false;
 
-		char seperator = ' ';
-		if (s.find('|') != std::string::npos) seperator = '|';
-
-		chinese = ""; english = "";
-
-		auto pos = s.find(seperator);
+		std::string::size_type pos = 0;
+		const char* seperator = "|\t ";
+		for (int i = 0; seperator[i]; ++i) 
+		{
+			pos = s.find(seperator[i]);
+			if (pos != std::string::npos) break;
+		}
 		if (pos == std::string::npos) return false;
 
-		english = s.substr(0, pos); chinese = s.substr(pos+1);
+		english = s.substr(0, pos); 
+		chinese = s.substr(pos+1);
 
-		trim(chinese); trim(english);
+		trim(chinese); 
+		trim(english);
 		return is_valid();
 	}
 
@@ -217,6 +221,7 @@ struct WordBookManager
             Word word;
             if (!word.read_from(line))
             {
+				word.read_from(line);
                 printf("book:%s invalid word: %s\n", wordbook.c_str(), line);
                 continue;
             }
@@ -847,7 +852,15 @@ struct Test
 
 int main(int argc, char* argv[])
 {
-    Test::instance().start(argc >= 2 ? argv[1] : "file.list");
+	if (argc >= 2)
+	{
+        std::fstream f;
+        f.open("file.list", (std::ios::trunc | std::ios::out));
+		f << argv[1];
+		f.close();
+	}
+
+    Test::instance().start("file.list");
     return 0;    
 }
 

@@ -309,7 +309,6 @@ specification                           规范（名词）
 specify                                 指定
 split                                   切分；划分；分开
 stack                                   栈
-stanard                                 标准、标准的
 standard                                标准；标准的；规范的
 statement                               语句
 static                                  静态的

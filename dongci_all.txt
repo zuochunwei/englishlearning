@@ -459,7 +459,7 @@ spell                                   拼写
 spend                                   花费
 split                                   分开、划分
 stack                                   栈
-stanard                                 标准、标准的
+standard                                标准、标准的
 stand                                   站立
 start                                   开始、启动
 statement                               语句
