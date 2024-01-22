@@ -1,0 +1,119 @@
+access                                   | 访问（V）
+achieve                                  | 达到（V）、实现
+address                                  | 解决(V)、地址(N)
+allocate                                 | 分配（V）
+allow                                    | 准许、允许（V）
+alter                                    | 修改（V）
+analyze                                  | 分析（研究）;解析;分解; v.
+appear                                   | 出现（V）
+apply                                    | 应用（V）
+assign                                   | 分配、赋值（V）
+assume                                   | 假设、假定（V）
+avoid                                    | 避免（V）
+benefit from                             | 从...受益
+calculate                                | 计算（V）
+cause                                    | 引起、导致（V）
+change                                   | 改变、变化（V）
+check                                    | 检查（V）
+classify                                 | 分类（V）
+collect                                  | 收集（V）
+combine                                  | 组合（V）
+communicate                              | 通信（V）
+compare to                               | 与...比较
+compile                                  | 编译（V）
+concern                                  | 关心、关注（V）
+consider                                 | 考虑、认为（V）
+consist of                               | 由...组成，包括...
+construct                                | 构造、构建（V）
+contain                                  | 包括、包含（V）
+control                                  | 控制（V）
+convert to                               | 转变（V）
+cooperate                                | 合作（V）
+cover                                    | 包括、覆盖、掩护（V）
+damage                                   | 损坏、破坏（V）
+decide                                   | 决定、确定（V）
+decrease                                 | 减少、降低（V）
+define                                   | 定义（V）
+demonstrate                              | 演示、证明（V）
+describe                                 | 描述（V）
+design                                   | 设计（V）
+destroy                                  | 销毁（V）
+determine                                | 确定、决定（V）
+disable                                  | 使...不能（V）
+disappear                                | 消失（V）
+discover                                 | 发现、探索（V）
+distinguish                              | 区分、区别（V）
+ease                                     | 简化、使容易（V）
+edit                                     | 编辑（V）
+employ                                   | 雇佣（V）
+enable                                   | 使...能够，使能（V）
+ensure                                   | 确保、保证（V）
+enter                                    | 进入（V）
+establish                                | 确立（V）
+execute                                  | 执行（V）
+exhibit                                  | 展示、展览（V）
+explain                                  | 解释（V）
+expose                                   | 暴露（V）
+express                                  | 表达、表示V
+extend                                   | 扩展（V）
+finish                                   | 完成（V）
+focus on                                 | 聚焦在...
+generate                                 | 产生（V）
+guarantee                                | 保证（V）
+handle                                   | 处理（V）
+identify                                 | 标识、识别（V）
+illustrate                               | 图示，用图说明（V）
+implement                                | 实现（V）
+improve                                  | 提升（V）
+increase                                 | 增加、提升（V）
+indicate                                 | 标识、表示V
+install                                  | 安装（V）
+introduce                                | 介绍（V）
+invoke                                   | 调用（V）
+launch                                   | 启动、发射（V）
+lead                                     | 引领、导致（V）
+load                                     | 加载、装载（V）
+manage                                   | 管理（V）
+mark                                     | 标记（V），打标记
+master                                   | 掌握、精通（V），硕士、主人（N）
+measure                                  | 测量、衡量（V）
+migrate                                  | 迁移（V）
+modify                                   | 修改、更改（V）
+note                                     | 注意、备注（V）
+notice                                   | 通知、注意（V）
+obtain                                   | 获得v
+occur                                    | 发生（V）
+operate                                  | 操作（V）
+optimize                                 | 优化（V）
+organize                                 | 组织（V）
+partition                                | 分片（V）、片（N）
+pass                                     | 传递、通过（V）
+perform                                  | 执行（V）、做
+probe                                    | 探测（V）
+process                                  | 处理（V）
+produce                                  | 生产（V）
+provide                                  | 提供（V）
+query                                    | 查询（V）
+reduce                                   | 减少、降低（V）
+refer to                                 | 指代（V）
+release                                  | 释放（V）
+rely on                                  | 依赖
+repeat                                   | 重复（V）
+replace                                  | 替换、替代（V）
+report                                   | 报告（V）
+represent                                | 代表（V）
+require                                  | 需要、要求（V）
+share                                    | 共享、分享（V）
+solve                                    | 解决（V）
+specify                                  | 指定 v
+speed up                                 | 加速
+stand for                                | 代表、表示（V）
+store                                    | 存储（V）、商店（N）
+support                                  | 支持（V）
+swap                                     | 交换（V）
+switch                                   | 开关、切换（V）
+transfer                                 | 转变、转换、换乘（V）
+turn to                                  | 转向、转变成
+understand                               | 理解（V）
+verify                                   | 验证（V）
+wonder                                   | 想知道（V）
