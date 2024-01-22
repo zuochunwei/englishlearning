@@ -714,7 +714,7 @@ struct Test {
 
     char buf[1024] = {};
     for (auto x : wordset) {
-      sprintf(buf, "%-40s | %s", x.english.c_str(), x.chinese.c_str());
+      snprintf(buf, sizeof(buf), "%-40s | %s", x.english.c_str(), x.chinese.c_str());
       // snprintf(buf, sizeof(buf), "%s", x.english.c_str());
       f << buf << std::endl;
     }
