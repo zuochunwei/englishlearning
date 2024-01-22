@@ -1,0 +1,121 @@
+specify 指定 v
+indicate 标识、表示V
+refer to 指代（V）
+analyze 分析（研究）;解析;分解; v.
+obtain 获得v
+focus on 聚焦在...
+address 解决(V)、地址(N)
+express 表达、表示V
+represent 代表（V）
+speed up 加速
+partition 分片（V）、片（N）
+store 存储（V）、商店（N）
+organize 组织（V）
+determine 确定、决定（V）
+classify 分类（V）
+perform 执行（V）、做
+execute 执行（V）
+achieve 达到（V）、实现
+increase 增加、提升（V）
+decrease 减少、降低（V）
+stand for 代表、表示（V）
+measure 测量、衡量（V）
+communicate 通信（V）
+construct 构造、构建（V）
+describe 描述（V）
+share 共享、分享（V）
+optimize 优化（V）
+control 控制（V）
+apply 应用（V）
+contain 包括、包含（V）
+benefit from 从...受益
+improve 提升（V）
+design 设计（V）
+consist of 由...组成，包括...
+manage 管理（V）
+load 加载、装载（V）
+exhibit 展示、展览（V）
+define 定义（V）
+calculate 计算（V）
+process 处理（V）
+require 需要、要求（V）
+replace 替换、替代（V）
+mark 标记（V），打标记
+support 支持（V）
+compare to 与...比较
+ensure 确保、保证（V）
+lead 引领、导致（V）
+swap 交换（V）
+solve 解决（V）
+access 访问（V）
+implement 实现（V）
+provide 提供（V）
+extend 扩展（V）
+compile 编译（V）
+check 检查（V）
+install 安装（V）
+launch 启动、发射（V）
+destroy 销毁（V）
+switch 开关、切换（V）
+cause 引起、导致（V）
+generate 产生（V）
+allocate 分配（V）
+invoke 调用（V）
+reduce 减少、降低（V）
+demonstrate 演示、证明（V）
+change 改变、变化（V）
+discover 发现、探索（V）
+consider 考虑、认为（V）
+damage 损坏、破坏（V）
+release 释放（V）
+produce 生产（V）
+edit 编辑（V）
+introduce 介绍（V）
+illustrate 图示，用图说明（V）
+concern 关心、关注（V）
+enter 进入（V）
+turn to 转向、转变成
+expose 暴露（V）
+allow 准许、允许（V）
+enable 使...能够，使能（V）
+disable 使...不能（V）
+note 注意、备注（V）
+migrate 迁移（V）
+cover 包括、覆盖、掩护（V）
+operate 操作（V）
+cooperate 合作（V）
+assume 假设、假定（V）
+notice 通知、注意（V）
+ease 简化、使容易（V）
+transfer 转变、转换、换乘（V）
+convert to 转变（V）
+assign 分配、赋值（V）
+repeat 重复（V）
+finish 完成（V）
+pass 传递、通过（V）
+modify 修改、更改（V）
+alter 修改（V）
+avoid 避免（V）
+rely on 依赖
+distinguish 区分、区别（V）
+appear 出现（V）
+disappear 消失（V）
+combine 组合（V）
+decide 决定、确定（V）
+query 查询（V）
+explain 解释（V）
+specify 指定（V）
+identify 标识、识别（V）
+establish 确立（V）
+verify 验证（V）
+handle 处理（V）
+report 报告（V）
+occur 发生（V）
+execute 执行、运行（V）
+guarantee 保证（V）
+collect 收集（V）
+understand 理解（V）
+probe 探测（V）
+master 掌握、精通（V），硕士、主人（N）
+wonder 想知道（V）
+employ 雇佣（V）
